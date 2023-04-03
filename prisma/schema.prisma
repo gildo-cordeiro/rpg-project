@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Character {
+  id               String             @id @default(uuid())
+  nickcName        String
+  class            CharacterClass
+  RoleplayingSheet RoleplayingSheet[]
+}
+
+model RoleplayingSheet {
+  id           String     @id @default(uuid())
+  experience   String
+  level        Int
+  strength     Int
+  dexterity    Int
+  constitution Int
+  intelligence Int
+  wisdom       Int
+  charisma     Int
+  character    Character  @relation(fields: [characterId], references: [id])
+  characterId  String
+  coin         BigInt
+  Campaign     Campaign[]
+}
+
+model Campaign {
+  id                 String             @id @default(uuid())
+  nameCampaign       String
+  roleplayingSheet   RoleplayingSheet   @relation(fields: [roleplayingSheetId], references: [id])
+  roleplayingSheetId String
+  CampaignOnPlayer   CampaignOnPlayer[]
+}
+
+model Player {
+  id               String             @id @default(uuid())
+  name             String
+  CampaignOnPlayer CampaignOnPlayer[]
+}
+
+model CampaignOnPlayer {
+  player     Player   @relation(fields: [playerId], references: [id])
+  playerId   String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId String
+
+  @@id([playerId, campaignId])
+}
+
+enum CharacterClass {
+  MAGE
+  MAGE1
+  MAGE2
+}
