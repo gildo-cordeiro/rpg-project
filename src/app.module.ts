@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CharacterModule } from './character/character.module';
+import { CharacterModule } from './modules/character/character.module';
+import { RoleplayingSheetModule } from './modules/roleplaying-sheet/roleplaying-sheet.module';
 
 @Module({
-  imports: [CharacterModule],
+  imports: [CharacterModule, RoleplayingSheetModule],
 })
 export class AppModule {}

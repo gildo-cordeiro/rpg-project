@@ -12,6 +12,8 @@ model Character {
   nickcName        String
   class            CharacterClass
   RoleplayingSheet RoleplayingSheet[]
+
+  @@map("character")
 }
 
 model RoleplayingSheet {
@@ -26,8 +28,10 @@ model RoleplayingSheet {
   charisma     Int
   character    Character  @relation(fields: [characterId], references: [id])
   characterId  String
-  coin         BigInt
+  coin         Int
   Campaign     Campaign[]
+
+  @@map("roleplaying_sheet")
 }
 
 model Campaign {
@@ -36,12 +40,16 @@ model Campaign {
   roleplayingSheet   RoleplayingSheet   @relation(fields: [roleplayingSheetId], references: [id])
   roleplayingSheetId String
   CampaignOnPlayer   CampaignOnPlayer[]
+
+  @@map("campaign")
 }
 
 model Player {
   id               String             @id @default(uuid())
   name             String
   CampaignOnPlayer CampaignOnPlayer[]
+
+  @@map("player")
 }
 
 model CampaignOnPlayer {
@@ -51,6 +59,7 @@ model CampaignOnPlayer {
   campaignId String
 
   @@id([playerId, campaignId])
+  @@map("campaign_player")
 }
 
 enum CharacterClass {
